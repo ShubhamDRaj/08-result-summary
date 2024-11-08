@@ -1,0 +1,280 @@
+/* font loading */
+@font-face {
+    font-family: 'HankenGrotesk';
+    font-display: swap;
+    /* for performance reasons */
+    font-weight: 100 900;
+    /* range of font weights */
+    src: url('assets/fonts/HankenGrotesk-VariableFont_wght.ttf') format('truetype');
+}
+
+/* CUSTOM PROPERITES */
+:root {
+    --clr-primary-gradient-hsl: 252, 100%, 67%;
+    --clr-primary-gradient2-hsl: 241, 81%, 54%;
+    --clr-seconadry-gradient-hsl: 256, 72%, 46%;
+    --clr-secondary-gradient-hsl: 241, 72%, 46%;
+
+    --clr-neutral-hsl-100: 0, 0%, 100%;
+    /*card summary?*/
+    --clr-neutral-hsl-200: 221, 100%, 96%;
+    /*body?*/
+    --clr-neutral-hsl-300: 241, 100%, 89%;
+    /*shadow?*/
+
+    --clr-font_button_shadow-hsl: 224, 30%, 27%;
+
+    /* the reason to store the color values outside hsl() func
+    is to be able to control the opacity(alpha value) later on.
+        So anytime we need hsl colour we use hsl wrapped ones 
+    and in other times we'll use non hsl to put in hsl() to 
+    adjust alpha value */
+
+    --clr-primary-gradient: hsl(var(--clr-primary-gradient-hsl));
+    --clr-primary-gradient2: hsl(var(--clr-primary-gradient2-hsl));
+    --clr-secondary-gradient: hsla(var(--clr-seconadry-gradient-hsl));
+
+    --clr-neutral-100: hsl(var(--clr-neutral-hsl-100));
+    --clr-neutral-200: hsl(var(--clr-neutral-hsl-200));
+    --clr-neutral-300: hsl(var(--clr-neutral-hsl-300));
+
+    --clr-font_button_shadow: hsl(var(--clr-font_button_shadow-hsl));
+
+    /* gradient colors */
+    --gradient-primary: linear-gradient(var(--clr-primary-gradient),
+            var(--clr-primary-gradient2));
+
+    --gradient-to-transparent: linear-gradient(var(--clr-secondary-gradient),
+            hsl(var(--clr-secondary-gradient-hsl), 0));
+
+    /* accent colors in the summary section */
+    --clr-accent-1: 0, 100%, 67%;
+    --clr-accent-2: 39, 100%, 56%;
+    --clr-accent-3: 166, 100%, 37%;
+    --clr-accent-4: 234, 85%, 45%;
+
+    /* font related custom properties */
+    --font-family-default: 'HankenGrotesk', sans-serif;
+
+    --fw-regular: 500;
+    --fw-bold: 700;
+    --fw-black: 800;
+
+    --fs-18: 1.125rem;
+    --fs-20: 1.25rem;
+    --fs-24: 1.5rem;
+    --fs-28: 1.75rem;
+    --fs-32: 2rem;
+    --fs-80: 5rem;
+}
+
+
+/* CSS reset */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+* {
+    margin: 0;
+    font: inherit;
+}
+
+img,
+svg {
+    display: block;
+    max-width: 100%;
+}
+
+
+/* main styling - mobile first */
+body {
+    font-family: var(--font-family-default);
+    font-size: var(--fs-18);
+    color: var(--clr-font_button_shadow);
+}
+
+.result {
+    /* local custom propety to set 
+    border-radius inside result section */
+    --border-radius: 2rem;
+    --padding: 2.5rem;
+    max-width: 46rem;
+    display: grid;
+}
+
+.result__title {
+    font-size: var(--fs-24);
+    font-weight: var(--fw-bold);
+}
+
+/* 1ts child */
+.result__grade {
+    color: hsl(var(--clr-neutral-hsl-100), .7);
+    text-align: center;
+    /* to maintain the relation we use padding*1.5 as 
+    in future if we want to change padding just have to do it one time */
+    padding: var(--padding) calc(var(--padding) * 1.5);
+    background: var(--gradient-primary);
+    /* border-radius for mobile is 0 for both top sides */
+    border-radius: 0 0 var(--border-radius) var(--border-radius);
+}
+
+/* UTILITY CLASSES */
+.grid-flow {
+    display: grid;
+    align-content: start;
+    /* since default value is stretch w/o it elements grid 
+    stretches every element inside of it */
+    gap: 1rem;
+}
+
+/* specifying bigger space where data-spacing was set to large */
+.grid-flow[data-spacing="large"] {
+    gap: 2rem;
+}
+
+.flex-group {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    flex-wrap: wrap;
+}
+
+.result__score {
+    display: grid;
+    place-items: center;
+    /* to center score items inside the circle
+    either have to use grid or flexbox */
+    align-content: center; /* else I believ it was stretching */
+    width: 12rem;
+    margin-inline: auto;
+    background: var(--gradient-to-transparent);
+    aspect-ratio: 1 / 1;
+    /* w/o setting aspect-ratio we'd get a oval shape */
+    border-radius: 50%;
+}
+
+.result__score span {
+    display: block;
+    /* since span is inline we want to make sure that
+    it's a block and in the next line */
+    font-size: var(--fs-80);
+    font-weight: var(--fw-black);
+    line-height: 1;
+    color: var(--clr-neutral-100);
+}
+
+.result__rank {
+    color: var(--clr-neutral-100);
+    font-size: var(--fs-28);
+    font-weight: var(--fw-bold);
+}
+
+
+/* 2nd child */
+.result__summary {
+    padding: var(--padding);
+}
+
+.summary__item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    border-radius: .5rem;
+    background-color: hsl(var(--item-color), .1);
+}
+
+.summary__item-title {
+    color: hsl(var(--item-color));
+    font-weight: var(--fw-bold);
+}
+/* BEAUTIFUL IMPLEMENTATION */
+.summary__item svg {
+    stroke: hsl(var(--item-color));
+}
+
+.summary__item[data-item-type="accent-1"] {
+    --item-color: var(--clr-accent-1)
+}
+.summary__item[data-item-type="accent-2"] {
+    --item-color: var(--clr-accent-2)
+}
+.summary__item[data-item-type="accent-3"] {
+    --item-color: var(--clr-accent-3)
+}
+.summary__item[data-item-type="accent-4"] {
+    --item-color: var(--clr-accent-4)
+}
+ 
+.summary__score {
+    font-weight: var(--fw-black);
+    color: hsl(var(--clr-font_button_shadow-hsl), .5);
+}
+
+.summary__score span {
+    color: var(--clr-font_button_shadow);
+}
+
+
+
+.button {
+    color: var(--clr-neutral-100);
+    line-height: 1;
+    font-size: var(--fs-18);
+    background: var(--clr-font_button_shadow);
+    padding: 1rem 2rem;
+    border: 0;
+    border-radius: 100vw;
+    cursor: pointer;
+}
+
+/* focus-visible ensures when pressing tab the hover state works too */
+.button:hover,
+.button:focus-visible {
+    background: var(--gradient-primary);
+}
+
+
+
+
+
+/* tablet-desktop style beyond 700px */
+@media (min-width: 43.75em) {
+    body {
+        min-height: 100vh;
+        display: grid;
+        place-items: center;
+    }
+
+    /* two column layout in result section */
+    .result {
+        margin-inline: 1rem;
+        grid-template-columns: repeat(2, 1fr);
+        border-radius: var(--border-radius);
+        box-shadow: .5rem 1rem 3rem hsl(var(--clr-font_button_shadow-hsl), .2);
+        overflow: hidden;
+    }
+
+    .result__grade {
+        border-radius: var(--border-radius);
+    }
+}
+
+
+
+
+
+
+
+
+.attribution {
+    font-size: 11px;
+    text-align: center;
+}
+
+.attribution a {
+    color: hsl(228, 45%, 44%);
+}
